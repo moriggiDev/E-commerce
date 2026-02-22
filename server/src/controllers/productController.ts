@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import pool from "../config/database.js";
 
 export async function criarProduto(req: Request, res: Response) {
-    const { nome, descricao, preco, estoque } = req.body;
+    const { nome, descricao, preco, estoque, vendas, popular, promocao  } = req.body;
 
     if(!nome || !preco) {
        
@@ -12,8 +12,8 @@ export async function criarProduto(req: Request, res: Response) {
 
     try {
         const resultado = await pool.query(
-            'INSERT INTO produtos (nome, descricao, preco, estoque) VALUES ($1, $2, $3, $4) RETURNING *',
-            [nome, descricao, preco, estoque ?? 0]
+            'INSERT INTO produtos (nome, descricao, preco, estoque, vendas, popular, promocao) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            [nome, descricao, preco, estoque ?? 0, vendas ?? 0, popular?? false, promocao ?? false]
         );
         res.status(201).json({ produto: resultado.rows[0] });
     } catch (erro) {
@@ -23,7 +23,21 @@ export async function criarProduto(req: Request, res: Response) {
 }
 
 export async function listarProduto(req: Request, res: Response) {
-  try {
+    const { filtro } = req.query;
+  
+    let query = 'SELECT * FROM produtos';
+
+    if (filtro === 'mais-vendidos') {
+        query += ' ORDER BY vendas DESC';
+    } else if (filtro === 'populares') {
+        query += ' WHERE popular = true';
+    } else if (filtro === 'promocao') {
+        query += ' WHERE promocao = true';
+    } else {
+        query += ' ORDER BY criado_em DESC';
+    }
+  
+    try {
     const resultado = await pool.query(
       'SELECT * FROM produtos ORDER BY criado_em DESC'
     );
