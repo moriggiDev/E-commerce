@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import './config/database.js';
 import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
@@ -6,6 +7,10 @@ import productRoutes from './routes/productRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 
 app.use(express.json());
 
