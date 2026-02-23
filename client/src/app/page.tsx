@@ -5,6 +5,8 @@ import axios from 'axios';
 import Header from '@/components/Header';
 import { useCart } from '@/context/CartContext';
 
+import HeroSection from '@/components/HeroSection';
+
 interface Produto {
   id: number;
   nome: string;
@@ -19,19 +21,24 @@ interface Produto {
 export default function Home() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [filtro, setFiltro] = useState('');
+  const [busca, setBusca] = useState('');
   const { adicionarProduto } = useCart();
 
   useEffect(() => {
-    const url = filtro
-      ? `http://localhost:3001/produtos?filtro=${filtro}`
-      : 'http://localhost:3001/produtos';
+  const params = new URLSearchParams();
+  if (filtro) params.append('filtro', filtro);
+  if (busca) params.append('busca', busca);
+  
+  const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
+  axios.get(url).then(res => setProdutos(res.data.produtos));
+  }, [filtro, busca]);
 
-    axios.get(url).then(res => setProdutos(res.data.produtos));
-  }, [filtro]);
+
 
   return (
     <main className="min-h-screen bg-gray-100">
-      <Header />
+      <Header onBusca={setBusca} />
+      <HeroSection />
 
       <div className="px-4 py-6 sm:px-6 sm:py-8 sm:max-w-6xl sm:mx-auto">
 

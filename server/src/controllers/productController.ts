@@ -22,31 +22,34 @@ export async function criarProduto(req: Request, res: Response) {
 
 }
 
-export async function listarProduto(req: Request, res: Response) {
-    const { filtro } = req.query;
-  
-    let query = 'SELECT * FROM produtos';
+export async function listarProdutos(req: Request, res: Response) {
+  const { filtro, busca } = req.query;
 
-    if (filtro === 'mais-vendidos') {
-        query += ' ORDER BY vendas DESC';
-    } else if (filtro === 'populares') {
-        query += ' WHERE popular = true';
-    } else if (filtro === 'promocao') {
-        query += ' WHERE promocao = true';
-    } else {
-        query += ' ORDER BY criado_em DESC';
-    }
-  
-    try {
-    const resultado = await pool.query(
-      'SELECT * FROM produtos ORDER BY criado_em DESC'
-    );
+  let query = 'SELECT * FROM produtos WHERE 1=1';
+  const valores: string[] = [];
+
+  if (busca) {
+    valores.push(`%${busca}%`);
+    query += ` AND nome ILIKE $${valores.length}`;
+  }
+
+  if (filtro === 'mais-vendidos') {
+    query += ' ORDER BY vendas DESC';
+  } else if (filtro === 'populares') {
+    query += ' AND popular = true';
+  } else if (filtro === 'promocao') {
+    query += ' AND promocao = true';
+  } else {
+    query += ' ORDER BY criado_em DESC';
+  }
+
+  try {
+    const resultado = await pool.query(query, valores);
     res.json({ produtos: resultado.rows });
   } catch (erro) {
     res.status(500).json({ error: 'Erro interno do servidor.' });
   }
 }
-
 
 
 export async function apagarProduto(req: Request, res: Response) {
