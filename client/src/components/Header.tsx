@@ -14,7 +14,7 @@ export default function Header() {
         <header className="bg-black text-white px-4 py-3 sm:px-6">
             <div className="max-w-6xl mx-auto flex justify-between items-center">
                 <Image
-                    src="/icon.jpeg"
+                    src="/icon.png"
                     alt="NXS Logo"
                     width={120}
                     height={40}
