@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useCart } from "@/context/CartContext";
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Search } from 'lucide-react';
 
 interface HeaderProps {
     onBusca: (termo: string) => void;
@@ -27,13 +27,20 @@ export default function Header({ onBusca }: HeaderProps) {
                     NXS HUB
                 </h1>
 
-                <input
-                    type="text"
-                    value={termo}
-                    onChange={handleBusca}
-                    placeholder="Buscar produtos..."
-                    className="flex-1 max-w-xl bg-purple-800 text-white placeholder-purple-300 border border-purple-600 focus:border-white focus:outline-none rounded-lg px-4 py-2 text-sm transition-colors"
-                />
+                <div className="flex-1 max-w-xl relative">
+                    <input
+                        type="text"
+                        value={termo}
+                        onChange={handleBusca}
+                        placeholder="Buscar produtos..."
+                        className="w-full bg-purple-800 text-white placeholder-purple-300 border border-purple-600 focus:border-white focus:outline-none rounded-lg pl-4 pr-10 py-2 text-sm transition-colors"
+                    />
+                    <Search
+                        size={16}
+                        onClick={() => onBusca(termo)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-300 hover:text-white cursor-pointer transition-colors"
+                    />
+                </div>
 
                 <div className="flex items-center gap-3 bg-white text-black px-4 py-2 rounded-full cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
                     <ShoppingCart size={22} />
