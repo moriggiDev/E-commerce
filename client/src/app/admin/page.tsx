@@ -91,41 +91,74 @@ export default function AdminPage() {
         }
     }
 
-    return (
-        <main>
-            <h1>Painel Admin</h1>
+   return (
+    <main className="min-h-screen bg-gray-950 text-white px-4 py-8 sm:px-6">
+      <div className="max-w-4xl mx-auto flex flex-col gap-8">
 
-            <h2>Adicionar Produto</h2>
-            <form onSubmit={adicionarProduto}>
-                <input placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
-                <input placeholder="Descrição" value={descricao} onChange={e => setDescricao(e.target.value)} />
-                <input placeholder="Preço" value={preco} onChange={e => setPreco(e.target.value)} />
-                <input placeholder="Estoque" value={estoque} onChange={e => setEstoque(e.target.value)} />
-                <input placeholder="Vendas" value={vendas} onChange={e => setVendas(e.target.value)} />
+        <div className="text-center">
+          <h1 className="text-4xl font-black tracking-widest text-white">NXS HUB</h1>
+          <p className="text-purple-400 text-sm mt-1">Painel Administrativo</p>
+        </div>
 
-                <label>
-                    <input type="checkbox" checked={popular} onChange={e => setPopular(e.target.checked)} />
-                    Popular
-                </label>
-                <label>
-                    <input type="checkbox" checked={promocao} onChange={e => setPromocao(e.target.checked)} />
-                    Promoção
-                </label>
-                <button type="submit">Adicionar</button>
-            </form>   
+        <div className="bg-gray-900 rounded-2xl border border-purple-800 shadow-xl shadow-purple-950 p-6 flex flex-col gap-4">
+          <h2 className="text-xl font-bold text-purple-300">Adicionar Produto</h2>
 
+          <form onSubmit={adicionarProduto} className="flex flex-col gap-3">
+            <input placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)}
+              className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors" />
+            <input placeholder="Descrição" value={descricao} onChange={e => setDescricao(e.target.value)}
+              className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors" />
+            <div className="grid grid-cols-2 gap-3">
+              <input placeholder="Preço" value={preco} onChange={e => setPreco(e.target.value)}
+                className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors" />
+              <input placeholder="Estoque" value={estoque} onChange={e => setEstoque(e.target.value)}
+                className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors" />
+            </div>
+            <input placeholder="Vendas" value={vendas} onChange={e => setVendas(e.target.value)}
+              className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors" />
 
-            <h2>Produtos Cadastrados</h2>
-            <ul>
-                {produtos.map(produto => (
-                    <li key={produto.id}>
-                        <span>{produto.nome} — R$ {Number(produto.preco).toFixed(2)}</span>
-                        <button onClick={() => apagarProduto(produto.id)}>Apagar</button>
-                    </li>
-                ))}
-            </ul>
-        </main>
-    )
-}
+            <div className="flex gap-6">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={popular} onChange={e => setPopular(e.target.checked)}
+                  className="w-4 h-4 accent-purple-500" />
+                <span className="text-purple-300 text-sm">Popular</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" checked={promocao} onChange={e => setPromocao(e.target.checked)}
+                  className="w-4 h-4 accent-purple-500" />
+                <span className="text-purple-300 text-sm">Promoção</span>
+              </label>
+            </div>
 
+            <button type="submit"
+              className="bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-3 rounded-lg transition-colors cursor-pointer tracking-wide mt-2">
+              Adicionar Produto
+            </button>
+          </form>
+        </div>
 
+        <div className="bg-gray-900 rounded-2xl border border-purple-800 shadow-xl shadow-purple-950 p-6 flex flex-col gap-4">
+          <h2 className="text-xl font-bold text-purple-300">Produtos Cadastrados</h2>
+
+          <ul className="flex flex-col gap-3">
+            {produtos.map(produto => (
+              <li key={produto.id}
+                className="flex justify-between items-center bg-gray-800 rounded-xl px-4 py-3 border border-gray-700">
+                <div className="flex flex-col">
+                  <span className="font-semibold text-white">{produto.nome}</span>
+                  <span className="text-purple-400 text-sm">R$ {Number(produto.preco).toFixed(2)}</span>
+                </div>
+                <button onClick={() => apagarProduto(produto.id)}
+                  className="bg-red-800 hover:bg-red-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors cursor-pointer">
+                  Apagar
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
+    </main>
+  );
+
+}  

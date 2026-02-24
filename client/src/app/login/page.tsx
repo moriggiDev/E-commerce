@@ -20,7 +20,7 @@ export default function LoginPage() {
                 senha
             });
 
-            document.cookie = `token=${resposta.data.token}; path=/`;
+            document.cookie = `token=${resposta.data.token}; path=/; max-age=28800`;
             router.push('/admin');
 
         } catch (err) {
