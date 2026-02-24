@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useCart } from "@/context/CartContext";
 import { ShoppingCart, Search } from 'lucide-react';
 
+import { useRouter } from 'next/navigation';
+
 interface HeaderProps {
     onBusca: (termo: string) => void;
 }
@@ -11,6 +13,9 @@ interface HeaderProps {
 export default function Header({ onBusca }: HeaderProps) {
     const { carrinho, total } = useCart();
     const [termo, setTermo] = useState('');
+
+    const router = useRouter();
+
 
     const totalItens = carrinho.reduce((acc, p) => acc + p.quantidade, 0);
 
@@ -42,7 +47,9 @@ export default function Header({ onBusca }: HeaderProps) {
                     />
                 </div>
 
-                <div className="flex items-center gap-3 bg-white text-black px-4 py-2 rounded-full cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
+                <div
+                    onClick={() => router.push('/carrinho')}
+                    className="flex items-center gap-3 bg-white text-black px-4 py-2 rounded-full cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
                     <ShoppingCart size={22} />
                     <span className="text-sm font-semibold">
                         {totalItens} {totalItens === 1 ? 'item' : 'itens'}
