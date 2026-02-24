@@ -10,88 +10,91 @@ import { useRouter } from "next/navigation";
    as tipagens dentro dos arquivos */
 
 interface Produto {
-    id: number;
-    nome: string;
-    descricao: string;
-    preco: number;
-    estoque: number;
-    vendas: number;
-    popular: boolean;
-    promocao: boolean;
+  id: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  estoque: number;
+  vendas: number;
+  popular: boolean;
+  promocao: boolean;
 }
 
 export default function AdminPage() {
-    const [produtos, setProdutos] = useState<Produto[]>([]);
-    const [nome, setNome] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [preco, setPreco] = useState('');
-    const [estoque, setEstoque] = useState('');
-    const [vendas, setVendas] = useState('');
-    const [popular, setPopular] = useState(false);
-    const [promocao, setPromocao] = useState(false);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [nome, setNome] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [preco, setPreco] = useState('');
+  const [estoque, setEstoque] = useState('');
+  const [vendas, setVendas] = useState('');
+  const [popular, setPopular] = useState(false);
+  const [promocao, setPromocao] = useState(false);
 
-    const router = useRouter();
+  const router = useRouter();
 
 
-    function getToken() {
-        const cookie = document.cookie.split('; ').find(r => r.startsWith('token'));
-        return cookie ? cookie.split('=')[1] : null;
+  function getToken() {
+  const token = document.cookie
+    .split(';')
+    .map(c => c.trim())
+    .find(c => c.startsWith('token='));
+  return token ? token.split('=')[1] : null;
+}
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/produtos')
+      .then(res => setProdutos(res.data.produtos))
+      .catch(() => router.push('/login'));
+  }, []);
+
+
+  async function adicionarProduto(e: React.FormEvent) {
+    e.preventDefault();
+    const token = getToken();
+
+    try {
+      await axios.post('http://localhost:3001/produtos',
+        {
+          nome,
+          descricao,
+          preco: Number(preco),
+          estoque: Number(estoque),
+          vendas: Number(vendas) || 0,
+          popular,
+          promocao
+
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setNome('');
+      setDescricao('');
+      setPreco('');
+      setEstoque('');
+      setVendas('');
+      setPopular(false);
+      setPromocao(false);
+
+      const res = await axios.get('http://localhost:3001/produtos');
+      setProdutos(res.data.produtos);
+    } catch (err) {
+      router.push('/login');
     }
+  }
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/produtos')
-        .then(res => setProdutos(res.data.produtos))
-        .catch(() => router.push('/login'));
-    }, []);
+  async function apagarProduto(id: number) {
+    const token = getToken();
 
-
-    async function adicionarProduto(e: React.FormEvent) {
-        e.preventDefault();
-        const token = getToken();
-
-        try {
-            await axios.post('http://localhost:3001/produtos',
-                {
-                   nome,
-                   descricao,
-                   preco: Number(preco),
-                   estoque: Number(estoque),
-                   vendas: Number(vendas) || 0,
-                   popular,
-                   promocao
-
-                },
-                { headers: { Authorization: `Bearer ${token}`} }
-            );
-            setNome('');
-            setDescricao('');
-            setPreco('');
-            setEstoque('');
-            setVendas('');
-            setPopular(false);
-            setPromocao(false);
-
-            const res = await axios.get('http://localhost:3001/produtos');
-            setProdutos(res.data.produtos);
-        } catch (err) {
-            router.push('/login');
-        }
+    try {
+      await axios.delete(`http://localhost:3001/produtos/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setProdutos(produtos.filter(p => p.id !== id));
+    } catch (err) {
+      router.push('/login');
     }
+  }
 
-    async function apagarProduto(id: number) {
-        const token = getToken();
-
-        try {
-            await axios.delete(`http://localhost:3001/produtos/${id}`,
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            setProdutos(produtos.filter(p => p.id !== id));
-        } catch (err) {
-            router.push('/login');
-        }
-    }
-
-   return (
+  return (
     <main className="min-h-screen bg-gray-950 text-white px-4 py-8 sm:px-6">
       <div className="max-w-4xl mx-auto flex flex-col gap-8">
 
