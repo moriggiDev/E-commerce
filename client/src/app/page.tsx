@@ -16,6 +16,8 @@ interface Produto {
   vendas: number;
   popular: boolean;
   promocao: boolean;
+  imagem: string;
+  categoria: string;
 }
 
 export default function Home() {
@@ -25,18 +27,18 @@ export default function Home() {
   const { adicionarProduto } = useCart();
 
   useEffect(() => {
-  const params = new URLSearchParams();
-  if (filtro) params.append('filtro', filtro);
-  if (busca) params.append('busca', busca);
-  
-  const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
-  axios.get(url).then(res => setProdutos(res.data.produtos));
+    const params = new URLSearchParams();
+    if (filtro) params.append('filtro', filtro);
+    if (busca) params.append('busca', busca);
+
+    const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
+    axios.get(url).then(res => setProdutos(res.data.produtos));
   }, [filtro, busca]);
 
 
 
   return (
-    <main className="min-h-screen bg-gray-100">
+    <main className="min-h-screen bg-gray-950">
       <Header onBusca={setBusca} />
       <HeroSection />
 
@@ -47,10 +49,10 @@ export default function Home() {
             <button
               key={f}
               onClick={() => setFiltro(f)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border border-gray-300 cursor-pointer transition-colors
+              className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border cursor-pointer transition-colors
                 ${filtro === f
-                  ? 'bg-black text-white'
-                  : 'bg-white text-black hover:bg-gray-100'
+                  ? 'bg-purple-700 text-white border-purple-700'
+                  : 'bg-transparent text-purple-300 border-purple-700 hover:bg-purple-900'
                 }`}
             >
               {f === '' && 'Todos'}
@@ -65,37 +67,48 @@ export default function Home() {
           {produtos.map(produto => (
             <div
               key={produto.id}
-              className="bg-white rounded-xl shadow p-5 flex flex-col gap-3 text-black hover:shadow-lg hover:shadow-purple-400 active:shadow-lg active:shadow-purple-400 transition-shadow cursor-pointer"
+              className="bg-gray-900 border border-gray-800 hover:border-purple-600 rounded-2xl overflow-hidden flex flex-col gap-0 text-white transition-all hover:shadow-lg hover:shadow-purple-900 cursor-pointer"
             >
-              <div className="flex gap-2 flex-wrap">
-                {produto.promocao && (
-                  <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full w-fit">
-                    🔥 Compre 1 Leve 2
-                  </span>
-                )}
-                {produto.popular && (
-                  <span className="bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-full w-fit">
-                    ⭐ Popular
-                  </span>
-                )}
+              {produto.imagem && (
+                <img
+                  src={produto.imagem}
+                  alt={produto.nome}
+                  className="w-full h-48 object-cover"
+                />
+              )}
+
+              <div className="p-5 flex flex-col gap-3 flex-1">
+                <div className="flex gap-2 flex-wrap">
+                  {produto.promocao && (
+                    <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full w-fit">
+                      🔥 Compre 1 Leve 2
+                    </span>
+                  )}
+                  {produto.popular && (
+                    <span className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full w-fit">
+                      ⭐ Popular
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="text-lg font-bold text-white">{produto.nome}</h3>
+                <p className="text-gray-400 text-sm flex-1">{produto.descricao}</p>
+
+                <p className="text-2xl font-black text-purple-400">
+                  R$ {Number(produto.preco).toFixed(2)}
+                </p>
+
+                <button
+                  onClick={() => adicionarProduto({
+                    id: produto.id,
+                    nome: produto.nome,
+                    preco: Number(produto.preco)
+                  })}
+                  className="mt-auto bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
+                >
+                  Adicionar ao Carrinho
+                </button>
               </div>
-
-              <h3 className="text-lg font-bold">{produto.nome}</h3>
-              <p className="text-gray-500 text-sm">{produto.descricao}</p>
-              <p className="text-xl font-bold">
-                R$ {Number(produto.preco).toFixed(2)}
-              </p>
-
-              <button
-                onClick={() => adicionarProduto({
-                  id: produto.id,
-                  nome: produto.nome,
-                  preco: Number(produto.preco)
-                })}
-                className="mt-auto bg-black text-white py-2 rounded-lg hover:bg-gray-800 active:bg-gray-700 transition-colors cursor-pointer font-semibold"
-              >
-                Adicionar ao Carrinho
-              </button>
             </div>
           ))}
         </div>

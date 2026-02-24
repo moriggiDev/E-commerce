@@ -18,9 +18,13 @@ interface Produto {
   vendas: number;
   popular: boolean;
   promocao: boolean;
+  imagem: string;
+  categoria: string;
 }
 
 export default function AdminPage() {
+  const [imagem, setImagem] = useState('');
+  const [categoria, setCategoria] = useState('tecnologia');
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -34,12 +38,12 @@ export default function AdminPage() {
 
 
   function getToken() {
-  const token = document.cookie
-    .split(';')
-    .map(c => c.trim())
-    .find(c => c.startsWith('token='));
-  return token ? token.split('=')[1] : null;
-}
+    const token = document.cookie
+      .split(';')
+      .map(c => c.trim())
+      .find(c => c.startsWith('token='));
+    return token ? token.split('=')[1] : null;
+  }
 
   useEffect(() => {
     axios.get('http://localhost:3001/produtos')
@@ -61,11 +65,14 @@ export default function AdminPage() {
           estoque: Number(estoque),
           vendas: Number(vendas) || 0,
           popular,
-          promocao
-
+          promocao,
+          imagem,
+          categoria
         },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      setImagem('');
+      setCategoria('tecnologia');
       setNome('');
       setDescricao('');
       setPreco('');
@@ -132,6 +139,20 @@ export default function AdminPage() {
                 <span className="text-purple-300 text-sm">Promoção</span>
               </label>
             </div>
+
+
+            <input placeholder="URL da imagem" value={imagem} onChange={e => setImagem(e.target.value)}
+              className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors" />
+
+            <select value={categoria} onChange={e => setCategoria(e.target.value)}
+              className="bg-gray-800 text-white border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors">
+              <option value="tecnologia">Tecnologia</option>
+              <option value="games">Games</option>
+              <option value="consoles">Consoles</option>
+              <option value="acessorios">Acessórios</option>
+              <option value="celulares">Celulares</option>
+            </select>
+
 
             <button type="submit"
               className="bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-3 rounded-lg transition-colors cursor-pointer tracking-wide mt-2">

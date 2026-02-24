@@ -2,23 +2,23 @@ import type { Request, Response } from "express";
 import pool from "../config/database.js";
 
 export async function criarProduto(req: Request, res: Response) {
-    const { nome, descricao, preco, estoque, vendas, popular, promocao  } = req.body;
+  const { nome, descricao, preco, estoque, vendas, popular, promocao, imagem, categoria } = req.body;
 
-    if(!nome || !preco) {
-       
-       res.status(400).json({ error: "Nome e preço são obrigátorios."});
-        return;
-    }
+  if (!nome || !preco) {
 
-    try {
-        const resultado = await pool.query(
-            'INSERT INTO produtos (nome, descricao, preco, estoque, vendas, popular, promocao) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            [nome, descricao, preco, estoque ?? 0, vendas ?? 0, popular?? false, promocao ?? false]
-        );
-        res.status(201).json({ produto: resultado.rows[0] });
-    } catch (erro) {
-        res.status(500).json({ error: "Erro interno do servidor."})
-    }
+    res.status(400).json({ error: "Nome e preço são obrigátorios." });
+    return;
+  }
+
+  try {
+    const resultado = await pool.query(
+      'INSERT INTO produtos (nome, descricao, preco, estoque, vendas, popular, promocao, imagem, categoria) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+      [nome, descricao, preco, estoque ?? 0, vendas ?? 0, popular ?? false, promocao ?? false, imagem ?? null, categoria ?? 'tecnologia']
+    );
+    res.status(201).json({ produto: resultado.rows[0] });
+  } catch (erro) {
+    res.status(500).json({ error: "Erro interno do servidor." })
+  }
 
 }
 
@@ -53,21 +53,21 @@ export async function listarProdutos(req: Request, res: Response) {
 
 
 export async function apagarProduto(req: Request, res: Response) {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    try {
-        const resultado = await pool.query(
-            'DELETE FROM produtos WHERE id = $1 RETURNING *',
-            [id]
-        );
+  try {
+    const resultado = await pool.query(
+      'DELETE FROM produtos WHERE id = $1 RETURNING *',
+      [id]
+    );
 
-        if (resultado.rowCount === 0) {
-            res.status(404).json({ error: "Produto não encontrado." });
-            return;
-        }
-
-        res.json({ mensagem: "Produto apagado com sucesso." });
-    } catch (erro) {
-        res.status(500).json({ error: "Erro interno do servidor." });
+    if (resultado.rowCount === 0) {
+      res.status(404).json({ error: "Produto não encontrado." });
+      return;
     }
+
+    res.json({ mensagem: "Produto apagado com sucesso." });
+  } catch (erro) {
+    res.status(500).json({ error: "Erro interno do servidor." });
+  }
 }
