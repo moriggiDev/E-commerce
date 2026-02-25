@@ -71,3 +71,24 @@ export async function apagarProduto(req: Request, res: Response) {
     res.status(500).json({ error: "Erro interno do servidor." });
   }
 }
+
+
+export async function listarProdutoPorId(req: Request, res: Response) {
+  const { id } = req.params;
+
+  try {
+    const resultado = await pool.query(
+      'SELECT * FROM produtos WHERE id = $1',
+      [id]
+    );
+
+    if (resultado.rowCount === 0) {
+      res.status(404).json({ error: 'Produto não encontrado.' });
+      return;
+    }
+
+    res.json({ produto: resultado.rows[0] });
+  } catch (erro) {
+    res.status(500).json({ error: 'Erro interno do servidor.' });
+  }
+}

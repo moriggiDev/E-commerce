@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 import HeroSection from '@/components/HeroSection';
 import Carousel from '@/components/Carousel';
+import { useRouter } from 'next/navigation';
 
 
 interface Produto {
@@ -28,6 +29,8 @@ export default function Home() {
   const [filtro, setFiltro] = useState('');
   const [busca, setBusca] = useState('');
   const { adicionarProduto } = useCart();
+
+  const router = useRouter();
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -69,8 +72,10 @@ export default function Home() {
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {produtos.map(produto => (
+
             <div
               key={produto.id}
+              onClick={() => router.push(`/produto/${produto.id}`)}
               className="bg-gray-900 border border-gray-800 hover:border-purple-600 rounded-2xl overflow-hidden flex flex-col gap-0 text-white transition-all hover:shadow-lg hover:shadow-purple-900 cursor-pointer"
             >
               {produto.imagem && (
@@ -106,11 +111,14 @@ export default function Home() {
                 </p>
 
                 <button
-                  onClick={() => adicionarProduto({
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    adicionarProduto({
                     id: produto.id,
                     nome: produto.nome,
                     preco: Number(produto.preco)
-                  })}
+                  });
+                }}
                   className="mt-auto bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
                 >
                   Adicionar ao Carrinho
