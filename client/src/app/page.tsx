@@ -4,8 +4,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '@/components/Header';
 import { useCart } from '@/context/CartContext';
+import Image from 'next/image';
 
 import HeroSection from '@/components/HeroSection';
+import Carousel from '@/components/Carousel';
+
 
 interface Produto {
   id: number;
@@ -41,6 +44,7 @@ export default function Home() {
     <main className="min-h-screen bg-gray-950">
       <Header onBusca={setBusca} />
       <HeroSection />
+      <Carousel />
 
       <div className="px-4 py-6 sm:px-6 sm:py-8 sm:max-w-6xl sm:mx-auto">
 
@@ -70,11 +74,14 @@ export default function Home() {
               className="bg-gray-900 border border-gray-800 hover:border-purple-600 rounded-2xl overflow-hidden flex flex-col gap-0 text-white transition-all hover:shadow-lg hover:shadow-purple-900 cursor-pointer"
             >
               {produto.imagem && (
-                <img
-                  src={produto.imagem}
-                  alt={produto.nome}
-                  className="w-full h-48 object-cover"
-                />
+                <div className="relative w-full h-48">
+                  <Image
+                    src={produto.imagem}
+                    alt={produto.nome}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               )}
 
               <div className="p-5 flex flex-col gap-3 flex-1">
