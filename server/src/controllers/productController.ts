@@ -23,10 +23,15 @@ export async function criarProduto(req: Request, res: Response) {
 }
 
 export async function listarProdutos(req: Request, res: Response) {
-  const { filtro, busca } = req.query;
+  const { filtro, busca, categoria } = req.query;
 
   let query = 'SELECT * FROM produtos WHERE 1=1';
   const valores: string[] = [];
+
+  if (categoria) {
+    valores.push(categoria as string);
+    query += ` AND categoria = $${valores.length}`;
+  }
 
   if (busca) {
     valores.push(`%${busca}%`);

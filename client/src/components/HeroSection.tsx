@@ -8,7 +8,7 @@ export default function HeroSection() {
 
       <div className="flex">
 
-        <div className="flex-1 relative h-64 sm:h-80 md:h-96">
+        <div className="flex-1 relative h-52 sm:h-64 md:h-76">
 
           <Image src="/images/hero-left.png" alt="RTX e Headset" fill className="object-cover" />
 
@@ -16,13 +16,13 @@ export default function HeroSection() {
 
         </div>
 
-        <div className="flex-[3] relative h-64 sm:h-80 md:h-96">
+        <div className="flex-[3] relative h-52 sm:h-64 md:h-76">
 
           <Image src="/images/hero-center.png" alt="Setup NXS" fill className="object-cover" />
 
         </div>
 
-        <div className="flex-1 relative h-64 sm:h-80 md:h-96">
+        <div className="flex-1 relative h-52 sm:h-64 md:h-76">
 
           <Image src="/images/hero-right.png" alt="PS5 Roxo" fill className="object-cover" />
 

@@ -8,6 +8,7 @@ const banners = [
   '/images/produtos/banner2.png',
   '/images/produtos/banner3.png',
   '/images/produtos/banner4.png',
+  '/images/produtos/banner5.png',
 ];
 
 export default function Carousel() {
@@ -40,7 +41,7 @@ export default function Carousel() {
       <div className="hidden sm:flex gap-2 h-48 sm:h-64">
         {visiveis.map((banner, i) => (
           <div key={i} className="relative flex-1 h-full">
-            <Image
+            <Image           // Substitui 0 <img, por causa da prop srcset="" que estava alterando o tamnho das imagens
               src={banner}
               alt={`Banner ${i + 1}`}
               fill

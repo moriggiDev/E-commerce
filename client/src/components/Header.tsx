@@ -25,41 +25,68 @@ export default function Header({ onBusca }: HeaderProps) {
     }
 
     return (
-        <header className="bg-purple-900 text-white px-4 py-3 sm:px-6 sticky top-0 z-50 shadow-lg shadow-purple-950 border-b border-purple-700">
-            <div className="max-w-6xl mx-auto flex justify-between items-center gap-4">
+    <div className="sticky top-0 z-50">
+      <header className="bg-purple-900 text-white px-4 py-3 sm:px-6 shadow-lg shadow-purple-950 border-b border-purple-700">
+        <div className="max-w-6xl mx-auto flex justify-between items-center gap-4">
 
-                <h1 className="text-2xl font-black tracking-widest text-white whitespace-nowrap hidden sm:block">
-                    NXS HUB
-                </h1>
+          <h1
+            onClick={() => router.push('/')}
+            className="text-2xl font-black tracking-widest text-white whitespace-nowrap hidden sm:block cursor-pointer hover:text-purple-300 transition-colors"
+          >
+            NXS HUB
+          </h1>
 
-                <div className="flex-1 max-w-xl relative">
-                    <input
-                        type="text"
-                        value={termo}
-                        onChange={handleBusca}
-                        placeholder="Buscar produtos..."
-                        className="w-full bg-purple-800 text-white placeholder-purple-300 border border-purple-600 focus:border-white focus:outline-none rounded-lg pl-4 pr-10 py-2 text-sm transition-colors"
-                    />
-                    <Search
-                        size={16}
-                        onClick={() => onBusca(termo)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-300 hover:text-white cursor-pointer transition-colors"
-                    />
-                </div>
+          <div className="flex-1 max-w-xl relative">
+            <input
+              type="text"
+              value={termo}
+              onChange={handleBusca}
+              placeholder="Buscar produtos..."
+              className="w-full bg-purple-800 text-white placeholder-purple-300 border border-purple-600 focus:border-white focus:outline-none rounded-lg pl-4 pr-10 py-2 text-sm transition-colors"
+            />
+            <Search
+              size={16}
+              onClick={() => onBusca(termo)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-300 hover:text-white cursor-pointer transition-colors"
+            />
+          </div>
 
-                <div
-                    onClick={() => router.push('/carrinho')}
-                    className="flex items-center gap-3 bg-white text-black px-4 py-2 rounded-full cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
-                    <ShoppingCart size={22} />
-                    <span className="text-sm font-semibold">
-                        {totalItens} {totalItens === 1 ? 'item' : 'itens'}
-                    </span>
-                    <span className="text-sm font-bold">
-                        R$ {total.toFixed(2)}
-                    </span>
-                </div>
+          <div
+            onClick={() => router.push('/carrinho')}
+            className="flex items-center gap-3 bg-white text-black px-4 py-2 rounded-full cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap"
+          >
+            <ShoppingCart size={22} />
+            <span className="text-sm font-semibold">
+              {totalItens} {totalItens === 1 ? 'item' : 'itens'}
+            </span>
+            <span className="text-sm font-bold">
+              R$ {total.toFixed(2)}
+            </span>
+          </div>
 
-            </div>
-        </header>
-    );
+        </div>
+      </header>
+
+      <nav className="bg-purple-950 border-b border-purple-800 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto flex gap-1 overflow-x-auto">
+          {[
+            { label: 'Início', path: '/' },
+            { label: 'Tecnologia', path: '/' },
+            { label: 'Games', path: '/games' },
+            { label: 'Consoles', path: '/consoles' },
+            { label: 'Celulares', path: '/celulares' },
+            { label: 'Acessórios', path: '/acessorios' },
+          ].map((item) => (
+            <button
+              key={item.label}
+              onClick={() => router.push(item.path)}
+              className="text-purple-300 hover:text-white hover:bg-purple-800 px-4 py-3 text-sm font-semibold whitespace-nowrap transition-colors cursor-pointer rounded-lg"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
 }
