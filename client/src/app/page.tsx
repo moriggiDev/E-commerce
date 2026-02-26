@@ -26,20 +26,20 @@ interface Produto {
 
 export default function Home() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
-  const [filtro, setFiltro] = useState('');
+  const [filtro, setFiltro] = useState('populares');
   const [busca, setBusca] = useState('');
   const { adicionarProduto } = useCart();
 
   const router = useRouter();
 
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (filtro) params.append('filtro', filtro);
-    if (busca) params.append('busca', busca);
+ useEffect(() => {
+  const params = new URLSearchParams();
+  if (filtro) params.append('filtro', filtro);
+  if (busca) params.append('busca', busca);
 
-    const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
-    axios.get(url).then(res => setProdutos(res.data.produtos));
-  }, [filtro, busca]);
+  const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
+  axios.get(url).then(res => setProdutos(res.data.produtos));
+}, [filtro, busca]);
 
 
 
