@@ -76,7 +76,7 @@ export default function Home() {
             <div
               key={produto.id}
               onClick={() => router.push(`/produto/${produto.id}`)}
-              className="bg-gray-900 border border-gray-800 hover:border-purple-600 rounded-2xl overflow-hidden flex flex-col gap-0 text-white transition-all hover:shadow-lg hover:shadow-purple-900 cursor-pointer"
+              className="hover:-translate-y-4 bg-gray-900 border border-gray-800 hover:border-purple-600 rounded-2xl overflow-hidden flex flex-col gap-0 text-white transition-all hover:shadow-2xl hover:shadow-purple-700 cursor-pointer"
             >
               {produto.imagem && (
                 <div className="relative w-full h-48">
