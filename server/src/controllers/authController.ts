@@ -67,3 +67,29 @@ export async function login(req: Request, res: Response) {
     res.status(500).json({ error: 'Erro interno do servidor.' });
   }
 }
+
+
+export async function promoverAdmin(req: Request, res: Response) {
+    const { email } = req.body;
+
+    if (!email) {
+        res.status(400).json({ error: 'Email obrigatório.' });
+        return;
+    }
+
+    try {
+        const resultado = await pool.query(
+            'UPDATE usuarios SET role = $1 WHERE email = $2 RETURNING id, nome, email, role',
+            ['admin', email]
+        );
+
+        if (resultado.rows.length === 0) {
+            res.status(404).json({ error: 'Usuário não encontrado.' });
+            return;
+        }
+
+        res.json({ usuario: resultado.rows[0] });
+    } catch (erro) {
+        res.status(500).json({ error: 'Erro interno do servidor.' });
+    }
+}

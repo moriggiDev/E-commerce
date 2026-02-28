@@ -7,17 +7,27 @@ import { useState } from 'react';
 
 
 export default function CarrinhoPage() {
-    const { carrinho, removerProduto, total } = useCart();
+    const { carrinho, removerProduto, total, limparCarrinho } = useCart();
     const router = useRouter();
     const [finalizado, setFinalizado] = useState(false);
 
-    function finalizarPedido() {
-        setFinalizado(true);
-        setTimeout(() => {
-            router.push('/');
-        }, 3000);
-    }
+   function finalizarPedido() {
+    const token = document.cookie
+        .split(';')
+        .map(c => c.trim())
+        .find(c => c.startsWith('token='));
 
+    if (!token) {
+    router.push('/cadastro?redirect=/carrinho');
+    return;
+}
+
+    limparCarrinho();
+    setFinalizado(true);
+    setTimeout(() => {
+        router.push('/');
+    }, 3000);
+}
 
     return (
     <main className="min-h-screen bg-gray-950 text-white">

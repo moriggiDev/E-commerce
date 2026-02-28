@@ -13,6 +13,7 @@ interface CartContextType {
   carrinho: Produto[];
   adicionarProduto: (produto: Omit<Produto, 'quantidade'>) => void;
   removerProduto: (id: number) => void;
+  limparCarrinho: () => void;
   total: number;
 }
 
@@ -45,10 +46,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setCarrinho(atual => atual.filter(p => p.id !== id));
     }
 
+    function limparCarrinho() {
+    setCarrinho([]);
+    }
+
     const total = carrinho.reduce((acc, p) => acc + p.preco * p.quantidade, 0);
 
     return (
-        <CartContext.Provider value={{ carrinho, adicionarProduto, removerProduto, total }}>
+        <CartContext.Provider value={{ carrinho, adicionarProduto, removerProduto, limparCarrinho, total }}>
             {children}
         </CartContext.Provider>
     );

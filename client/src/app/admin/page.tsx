@@ -23,6 +23,9 @@ interface Produto {
 }
 
 export default function AdminPage() {
+  const [emailAdmin, setEmailAdmin] = useState('');
+  const [mensagemAdmin, setMensagemAdmin] = useState('');
+  const [erroAdmin, setErroAdmin] = useState('');
   const [imagem, setImagem] = useState('');
   const [categoria, setCategoria] = useState('tecnologia');
   const [produtos, setProdutos] = useState<Produto[]>([]);
@@ -98,6 +101,28 @@ export default function AdminPage() {
       setProdutos(produtos.filter(p => p.id !== id));
     } catch (err) {
       router.push('/login');
+    }
+  }
+
+  async function promoverAdmin(e: React.FormEvent) {
+    e.preventDefault();
+    const token = getToken();
+    setMensagemAdmin('');
+    setErroAdmin('');
+
+    try {
+      await axios.post('http://localhost:3001/auth/promover-admin',
+        { email: emailAdmin },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMensagemAdmin(`${emailAdmin} agora é admin!`);
+      setEmailAdmin('');
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setErroAdmin('Usuário não encontrado.');
+      } else {
+        setErroAdmin('Erro ao promover usuário.');
+      }
     }
   }
 
@@ -179,6 +204,36 @@ export default function AdminPage() {
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="bg-gray-900 rounded-2xl border border-purple-800 shadow-xl shadow-purple-950 p-6 flex flex-col gap-4">
+          <h2 className="text-xl font-bold text-purple-300">Promover para Admin</h2>
+
+          <form onSubmit={promoverAdmin} className="flex flex-col gap-3">
+            <input
+              placeholder="Email do usuário"
+              value={emailAdmin}
+              onChange={e => setEmailAdmin(e.target.value)}
+              className="bg-gray-800 text-white placeholder-gray-500 border border-gray-700 focus:border-purple-500 focus:outline-none rounded-lg px-4 py-3 text-sm transition-colors"
+            />
+
+            {erroAdmin && (
+              <p className="text-red-400 text-sm text-center bg-red-950 border border-red-800 rounded-lg px-4 py-2">
+                {erroAdmin}
+              </p>
+            )}
+
+            {mensagemAdmin && (
+              <p className="text-green-400 text-sm text-center bg-green-950 border border-green-800 rounded-lg px-4 py-2">
+                {mensagemAdmin}
+              </p>
+            )}
+
+            <button type="submit"
+              className="bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-3 rounded-lg transition-colors cursor-pointer tracking-wide mt-2">
+              Promover para Admin
+            </button>
+          </form>
         </div>
 
       </div>

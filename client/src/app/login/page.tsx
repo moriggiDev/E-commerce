@@ -5,33 +5,46 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
-    const [erro, setErro] = useState('');
-    const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const router = useRouter();
 
-    async function handleLogin(e: React.FormEvent) {
-        e.preventDefault();
-        setErro('');
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setErro('');
 
-        try {
-            const resposta = await axios.post('http://localhost:3001/auth/login', {
-                email,
-                senha
-            });
+    try {
+        const resposta = await axios.post('http://localhost:3001/auth/login', {
+            email,
+            senha
+        });
 
-            document.cookie = `token=${resposta.data.token}; path=/; max-age=28800`;
+        const token = resposta.data.token;
+        document.cookie = `token=${token}; path=/; max-age=28800`;
+
+        const payload = JSON.parse(atob(token.split('.')[1]));
+
+        const params = new URLSearchParams(window.location.search);
+        const redirect = params.get('redirect');
+
+        if (redirect) {
+            router.push(redirect);
+        } else if (payload.role === 'admin') {
             router.push('/admin');
-
-        } catch (err) {
-            setErro('Email ou senha inválidos.');
+        } else {
+            router.push('/');
         }
-    }
 
-    return (
+    } catch (err) {
+        setErro('Email ou senha inválidos.');
+    }
+}
+
+  return (
     <main className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-gray-900 rounded-2xl shadow-xl shadow-purple-950 border border-purple-800 p-8 flex flex-col gap-6">
-        
+
         <div className="text-center">
           <h1 className="text-4xl font-black tracking-widest text-white">NXS HUB</h1>
           <p className="text-purple-400 text-sm mt-1">Acesso ao painel administrativo</p>
@@ -76,6 +89,17 @@ export default function LoginPage() {
             Entrar
           </button>
         </form>
+
+
+        <p className="text-center text-gray-500 text-sm">
+          Não tem uma conta?{' '}
+          <span
+            onClick={() => router.push('/cadastro')}
+            className="text-purple-400 hover:text-purple-300 cursor-pointer transition-colors"
+          >
+            Criar conta
+          </span>
+        </p>
 
       </div>
     </main>

@@ -32,21 +32,24 @@ export default function Home() {
 
   const router = useRouter();
 
- useEffect(() => {
-  const params = new URLSearchParams();
-  if (filtro) params.append('filtro', filtro);
-  if (busca) params.append('busca', busca);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const params = new URLSearchParams();
+      if (filtro) params.append('filtro', filtro);
+      if (busca) params.append('busca', busca);
 
-  const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
-  axios.get(url).then(res => setProdutos(res.data.produtos));
-}, [filtro, busca]);
+      const url = `http://localhost:3001/produtos${params.toString() ? '?' + params.toString() : ''}`;
+      axios.get(url).then(res => setProdutos(res.data.produtos));
+    }, 400);
 
+    return () => clearTimeout(timer);
+  }, [filtro, busca]);
 
 
   return (
     <main className="min-h-screen bg-gray-950">
       <Header onBusca={setBusca} />
-      <HeroSection />
+      {/* <HeroSection /> */}
       <Carousel />
 
       <div className="px-4 py-6 sm:px-6 sm:py-8 sm:max-w-6xl sm:mx-auto">
@@ -114,11 +117,11 @@ export default function Home() {
                   onClick={(e) => {
                     e.stopPropagation();
                     adicionarProduto({
-                    id: produto.id,
-                    nome: produto.nome,
-                    preco: Number(produto.preco)
-                  });
-                }}
+                      id: produto.id,
+                      nome: produto.nome,
+                      preco: Number(produto.preco)
+                    });
+                  }}
                   className="mt-auto bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
                 >
                   Adicionar ao Carrinho
