@@ -9,6 +9,8 @@ const banners = [
   '/images/produtos/banner3.png',
   '/images/produtos/banner4.png',
   '/images/produtos/banner5.png',
+  '/images/produtos/banner6.png',
+  '/images/produtos/banner7.png',
 ];
 
 export default function Carousel() {

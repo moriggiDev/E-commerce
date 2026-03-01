@@ -9,6 +9,8 @@ import Image from 'next/image';
 import HeroSection from '@/components/HeroSection';
 import Carousel from '@/components/Carousel';
 import { useRouter } from 'next/navigation';
+import Footer from '@/components/Footer';
+
 
 
 interface Produto {
@@ -132,6 +134,7 @@ export default function Home() {
         </div>
 
       </div>
+      <Footer />
     </main>
   );
 }
