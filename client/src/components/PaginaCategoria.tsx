@@ -45,7 +45,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
-      <Header onBusca={setBusca} />
+      <Header />
       {carousel && carousel}
 
       <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 flex flex-col gap-6">

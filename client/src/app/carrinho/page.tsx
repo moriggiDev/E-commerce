@@ -31,7 +31,7 @@ export default function CarrinhoPage() {
 
     return (
     <main className="min-h-screen bg-gray-950 text-white">
-      <Header onBusca={() => {}} />
+      <Header />
 
       <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6">
 
