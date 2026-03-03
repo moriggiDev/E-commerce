@@ -4,7 +4,7 @@ import Carousel from '@/components/Carousel';
 export default function AcessoriosPage() {
   return (
     <>
-      <PaginaCategoria categoria="acessorios" titulo="🖱️ Acessórios" carousel={<Carousel />} />
+      <PaginaCategoria categoria="acessorios" titulo=" Acessórios" carousel={<Carousel />} />
     </>
   );
 }
