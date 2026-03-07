@@ -22,7 +22,7 @@ export default function Header() {
 
   return (
     <div className="sticky top-0 z-50">
-      <header className="bg-indigo-600 text-white px-4 py-3 sm:px-6 shadow-lg shadow-indigo-700 border-b border-indigo-500">
+      <header className="bg-stone-800 text-white px-4 py-3 sm:px-6 shadow-lg shadow-stone-700 border-b border-indigo-500">
         <div className="max-w-6xl mx-auto flex justify-between items-center gap-4">
 
           <h1
@@ -39,12 +39,12 @@ export default function Header() {
               onChange={handleBusca}
               onKeyDown={(e) => e.key === 'Enter' && executarBusca()}
               placeholder="Buscar produtos..."
-              className="w-full bg-indigo-600 text-white placeholder-indigo-300 border border-indigo-400 focus:border-white focus:outline-none rounded-lg pl-4 pr-10 py-2 text-sm transition-colors"
+              className="w-full bg-stone-600 text-white placeholder-indigo-300 border border-indigo-700 focus:border-white focus:outline-none rounded-lg pl-4 pr-10 py-2 text-sm transition-colors"
             />
             <Search
               size={16}
               onClick={executarBusca}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-600 hover:text-white cursor-pointer transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-300 hover:text-white cursor-pointer transition-colors"
             />
           </div>
 
@@ -64,7 +64,7 @@ export default function Header() {
         </div>
       </header>
 
-      <nav className="bg-indigo-700 border-b border-indigo-800 px-4 sm:px-6">
+      <nav className="bg-stone-700 border-b border-indigo-500 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto flex gap-1 overflow-x-auto">
           {[
             { label: 'Início', path: '/' },

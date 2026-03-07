@@ -206,7 +206,7 @@ export default function AdminView() {
         </div>
 
         {/* Card: Lista de Produtos */}
-        <div className="bg-gray-900 rounded-2xl border border-indigo-800 shadow-xl shadow-indigo-700 p-6 flex flex-col gap-4">
+        <div className="bg-stone-700 rounded-2xl border border-indigo-800 shadow-xl shadow-indigo-700 p-6 flex flex-col gap-4">
           <h2 className="text-xl font-bold text-indigo-600">Produtos Cadastrados</h2>
           <ul className="flex flex-col gap-3">
             {produtos.map(produto => (

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
-
+import { use } from 'react';
 
 interface Produto {
   id: number;
@@ -22,41 +22,31 @@ interface Produto {
 }
 
 export default function ProdutoPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params); // ← resolve a Promise do params direto
   const [produto, setProduto] = useState<Produto | null>(null);
   const [quantidade, setQuantidade] = useState(1);
   const { adicionarProduto } = useCart();
   const router = useRouter();
-  const [id, setId] = useState<string | null>(null);
 
   useEffect(() => {
-    params.then(p => setId(p.id));
-  }, []);
-
-  useEffect(() => {
-    if (!id) return;
     axios.get(`http://localhost:3001/produtos/${id}`)
       .then(res => setProduto(res.data.produto))
-      .catch((err) => {
-        console.log('Erro:', err.message);
-        router.push('/');
-      });
+      .catch(() => router.push('/'));
   }, [id]);
 
-
-    function handleAdicionar() {
-        if (!produto) return;
-        for (let i = 0; i < quantidade; i++) {
-            adicionarProduto({
-                id: produto.id,
-                nome: produto.nome,
-                preco: Number(produto.preco)
-            });
-        }
-        router.push('/carrinho');
+  function handleAdicionar() {
+    if (!produto) return;
+    for (let i = 0; i < quantidade; i++) {
+      adicionarProduto({
+        id: produto.id,
+        nome: produto.nome,
+        preco: Number(produto.preco)
+      });
     }
+    router.push('/carrinho');
+  }
 
-
-    if (!produto) {
+  if (!produto) {
     return (
       <main className="min-h-screen bg-gray-950">
         <Header />
@@ -84,12 +74,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
 
           <div className="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-gray-800">
             {produto.imagem ? (
-              <Image
-                src={produto.imagem}
-                alt={produto.nome}
-                fill
-                className="object-cover"
-              />
+              <Image src={produto.imagem} alt={produto.nome} fill className="object-cover" />
             ) : (
               <div className="w-full h-full bg-gray-800 flex items-center justify-center">
                 <span className="text-gray-500">Sem imagem</span>
@@ -155,4 +140,3 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
     </main>
   );
 }
-

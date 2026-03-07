@@ -45,7 +45,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel, footer }:
   }, [categoria, filtro, busca]);
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className="min-h-screen bg-stone-800 text-white">
       <Header />
       {carousel && carousel}
 
@@ -63,7 +63,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel, footer }:
               className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border cursor-pointer transition-colors
                 ${filtro === f
                   ? 'bg-indigo-700 text-white border-indigo-700'
-                  : 'bg-transparent text-indigo-800 border-indigo-700 hover:bg-indigo-400'
+                  : 'bg-transparent text-indigo-500 border-indigo-700 hover:bg-indigo-400'
                 }`}
             >
               {f === '' && 'Todos'}

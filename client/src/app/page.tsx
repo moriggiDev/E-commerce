@@ -45,7 +45,7 @@ export default function Home() {
   }, [filtro, busca]);
 
   return (
-    <main className="min-h-screen bg-gray-950">
+    <main className="min-h-screen bg-stone-800">
       <Header />
       <Carousel />
 
@@ -57,8 +57,8 @@ export default function Home() {
               onClick={() => setFiltro(f)}
               className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border cursor-pointer transition-colors
                 ${filtro === f
-                  ? 'bg-indigo-400 text-white border-indigo-400'
-                  : 'bg-transparent text-indigo-500 border-indigo-400 hover:bg-indigo-600'
+                  ? 'bg-indigo-400 text-white border-indigo-700'
+                  : 'bg-transparent text-indigo-800 border-indigo-700 hover:bg-indigo-400'
                 }`}
             >
               {f === '' && 'Todos'}
@@ -108,7 +108,7 @@ export default function Home() {
                       preco: Number(produto.preco)
                     });
                   }}
-                  className="mt-auto bg-indigo-400 hover:bg-indigo-400 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
+                  className="mt-auto bg-indigo-800 hover:bg-indigo-400 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
                 >
                   Adicionar ao Carrinho
                 </button>
