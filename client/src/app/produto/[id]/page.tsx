@@ -59,9 +59,9 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
     if (!produto) {
     return (
       <main className="min-h-screen bg-gray-950">
-        <Header onBusca={() => {}} />
+        <Header />
         <div className="flex items-center justify-center h-96">
-          <p className="text-purple-400 text-xl animate-pulse">Carregando...</p>
+          <p className="text-indigo-600 text-xl animate-pulse">Carregando...</p>
         </div>
       </main>
     );
@@ -69,13 +69,13 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
-      <Header onBusca={() => {}} />
+      <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-8 sm:px-6">
 
         <button
           onClick={() => router.back()}
-          className="text-purple-400 hover:text-purple-300 text-sm mb-6 flex items-center gap-2 cursor-pointer transition-colors"
+          className="text-indigo-600 hover:text-indigo-700 text-sm mb-6 flex items-center gap-2 cursor-pointer transition-colors"
         >
           ← Voltar
         </button>
@@ -115,7 +115,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
             <h1 className="text-3xl font-black text-white">{produto.nome}</h1>
             <p className="text-gray-400">{produto.descricao}</p>
 
-            <p className="text-4xl font-black text-purple-400">
+            <p className="text-4xl font-black text-indigo-600">
               R$ {Number(produto.preco).toFixed(2)}
             </p>
 
@@ -124,7 +124,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
             </p>
 
             <div className="flex items-center gap-4">
-              <span className="text-purple-300 text-sm font-semibold">Quantidade:</span>
+              <span className="text-indigo-600 text-sm font-semibold">Quantidade:</span>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setQuantidade(q => Math.max(1, q - 1))}
@@ -144,7 +144,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
 
             <button
               onClick={handleAdicionar}
-              className="bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-4 rounded-xl transition-colors cursor-pointer tracking-wide text-lg mt-2"
+              className="bg-indigo-700 hover:bg-indigo-600 active:bg-indigo-800 text-white font-bold py-4 rounded-xl transition-colors cursor-pointer tracking-wide text-lg mt-2"
             >
               Adicionar ao Carrinho
             </button>

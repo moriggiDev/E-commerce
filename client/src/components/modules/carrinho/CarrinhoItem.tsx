@@ -24,7 +24,7 @@ export default function CarrinhoItem({ produto, onRemover }: CarrinhoItemProps) 
     <li className="bg-gray-900 border border-gray-700 rounded-xl px-4 py-4 flex justify-between items-center gap-4">
       <div className="flex flex-col gap-1">
         <span className="font-semibold text-white">{produto.nome}</span>
-        <span className="text-purple-400 text-sm">
+        <span className="text-indigo-600 text-sm">
           R$ {produto.preco.toFixed(2)} × {produto.quantidade}
         </span>
         <span className="text-gray-400 text-sm font-bold">

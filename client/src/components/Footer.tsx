@@ -94,7 +94,7 @@ export default function Footer() {
   const router = useRouter();
 
   return (
-    <footer className="bg-gray-950 border-t border-purple-900 mt-12">
+    <footer className="bg-gray-950 border-t border-indigo-700 mt-12">
 
       <div className="flex">
 
@@ -103,7 +103,7 @@ export default function Footer() {
           <Image src="/images/hero-right.png" alt="RTX e Headset" fill className="object-cover opacity-60" />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent to-gray-950 opacity-60" />
           <div className="absolute inset-0 flex flex-col justify-center px-6 gap-3">
-            <h3 className="text-purple-400 font-bold text-sm uppercase tracking-wider">Categorias</h3>
+            <h3 className="text-indigo-600 font-bold text-sm uppercase tracking-wider">Categorias</h3>
             {[
               { label: 'Inicio', path: '/' },
               { label: 'Games', path: '/games' },
@@ -114,7 +114,7 @@ export default function Footer() {
               <button
                 key={item.path}
                 onClick={() => router.push(item.path)}
-                className="text-gray-200 hover:text-purple-400 text-sm text-left transition-colors cursor-pointer"
+                className="text-gray-200 hover:text-indigo-500 text-sm text-left transition-colors cursor-pointer"
               >
                 {item.label}
               </button>
@@ -130,7 +130,7 @@ export default function Footer() {
             {/* Topo: Logo + Redes Sociais */}
             <div className="flex flex-col items-center gap-2">
               <span className="text-4xl font-black tracking-widest text-white drop-shadow-lg">NXS HUB</span>
-              <span className="text-purple-400 text-sm font-semibold">Tech & Games</span>
+              <span className="text-indigo-600 text-sm font-semibold">Tech & Games</span>
               <div className="flex gap-4 mt-4">
                 {[
                   { label: 'Instagram', url: 'https://instagram.com' },
@@ -143,7 +143,7 @@ export default function Footer() {
                   href = { item.url }
                   target = "_blank"
                   rel = "noopener noreferrer"
-                  className = "text-gray-300 hover:text-purple-400 text-xs cursor-pointer transition-colors"
+                  className = "text-gray-300 hover:text-indigo-500 text-xs cursor-pointer transition-colors"
                   >
                   { item.label }
                 </a>
@@ -153,7 +153,7 @@ export default function Footer() {
 
           {/* Base: Formas de Pagamento */}
           <div className="flex flex-col items-center gap-2">
-            <div className="w-24 h-px bg-purple-800 mb-1" />
+            <div className="w-24 h-px bg-indigo-500 mb-1" />
             <span className="text-gray-400 text-xs uppercase tracking-widest">Formas de Pagamento</span>
             <div className="flex flex-wrap justify-center gap-2 px-4">
               {paymentMethods.map(({ name, Icon }) => (
@@ -175,7 +175,7 @@ export default function Footer() {
         <Image src="/images/hero-left.png" alt="PS5 Roxo" fill className="object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-l from-transparent to-gray-950 opacity-60" />
         <div className="absolute inset-0 flex flex-col justify-center px-6 gap-3">
-          <h3 className="text-purple-400 font-bold text-sm uppercase tracking-wider">Suporte</h3>
+          <h3 className="text-indigo-600 font-bold text-sm uppercase tracking-wider">Suporte</h3>
           {[
             { label: 'Central de Ajuda', path: '/ajuda' },
             { label: 'Trocas e Devoluções', path: '/trocas' },
@@ -186,7 +186,7 @@ export default function Footer() {
             <button
               key={item.path}
               onClick={() => router.push(item.path)}
-              className="text-gray-200 hover:text-purple-400 text-sm text-left transition-colors cursor-pointer"
+              className="text-gray-200 hover:text-indigo-500 text-sm text-left transition-colors cursor-pointer"
             >
               {item.label}
             </button>

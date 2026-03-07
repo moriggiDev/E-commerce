@@ -58,7 +58,7 @@ export default function CarrinhoView() {
                         <h2 className="text-xl font-bold text-gray-400">Carrinho vazio</h2>
                         <button
                             onClick={() => router.push('/')}
-                            className="mt-2 bg-purple-700 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-colors cursor-pointer mx-auto"
+                            className="mt-2 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-6 rounded-lg transition-colors cursor-pointer mx-auto"
                         >
                             Ver Produtos
                         </button>
@@ -75,16 +75,16 @@ export default function CarrinhoView() {
                             ))}
                         </ul>
 
-                        <div className="bg-gray-900 border border-purple-800 rounded-2xl p-6 flex justify-between items-center">
+                        <div className="bg-gray-900 border border-indigo-800 rounded-2xl p-6 flex justify-between items-center">
                             <div className="flex flex-col">
                                 <span className="text-gray-400 text-sm">Total</span>
-                                <span className="text-3xl font-black text-purple-400">
+                                <span className="text-3xl font-black text-indigo-600">
                                     R$ {total.toFixed(2)}
                                 </span>
                             </div>
                             <button
                                 onClick={finalizarPedido}
-                                className="bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white font-bold py-3 px-8 rounded-lg transition-colors cursor-pointer tracking-wide"
+                                className="bg-indigo-700 hover:bg-indigo-600 active:bg-indigo-800 text-white font-bold py-3 px-8 rounded-lg transition-colors cursor-pointer tracking-wide"
                             >
                                 Finalizar Pedido
                             </button>

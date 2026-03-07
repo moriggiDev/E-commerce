@@ -1,99 +1,68 @@
-import type { Request, Response } from "express";
-import pool from "../config/database.js";
+import type { Request, Response } from 'express';
+import {
+  criarProdutoService,
+  listarProdutosService,
+  apagarProdutoService,
+  listarProdutoPorIdService
+} from '../services/productService.js';
 
 export async function criarProduto(req: Request, res: Response) {
-  const { nome, descricao, preco, estoque, vendas, popular, promocao, imagem, categoria } = req.body;
+  const { nome, preco } = req.body;
 
   if (!nome || !preco) {
-
-    res.status(400).json({ error: "Nome e preço são obrigátorios." });
+    res.status(400).json({ error: 'Nome e preço são obrigatórios.' });
     return;
   }
 
   try {
-    const resultado = await pool.query(
-      'INSERT INTO produtos (nome, descricao, preco, estoque, vendas, popular, promocao, imagem, categoria) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [nome, descricao, preco, estoque ?? 0, vendas ?? 0, popular ?? false, promocao ?? false, imagem ?? null, categoria ?? 'tecnologia']
-    );
-    res.status(201).json({ produto: resultado.rows[0] });
-  } catch (erro) {
-    res.status(500).json({ error: "Erro interno do servidor." })
-  }
-
-}
-
-export async function listarProdutos(req: Request, res: Response) {
-  const { filtro, busca, categoria } = req.query;
-
-  let query = 'SELECT * FROM produtos WHERE 1=1';
-  const valores: string[] = [];
-
-  if (categoria) {
-    valores.push(categoria as string);
-    query += ` AND categoria = $${valores.length}`;
-  }
-
-  if (busca) {
-    valores.push(`%${busca}%`);
-    query += ` AND nome ILIKE $${valores.length}`;
-  }
-
-  if (filtro === 'mais-vendidos') {
-    query += ' ORDER BY vendas DESC';
-  } else if (filtro === 'populares') {
-    query += ' AND popular = true';
-  } else if (filtro === 'promocao') {
-    query += ' AND promocao = true';
-  } else {
-    query += ' ORDER BY criado_em DESC';
-  }
-
-  try {
-    const resultado = await pool.query(query, valores);
-    res.json({ produtos: resultado.rows });
+    const produto = await criarProdutoService(req.body);
+    res.status(201).json({ produto });
   } catch (erro) {
     res.status(500).json({ error: 'Erro interno do servidor.' });
   }
 }
 
+export async function listarProdutos(req: Request, res: Response) {
+  const { filtro, busca, categoria } = req.query;
+
+  try {
+    const produtos = await listarProdutosService(
+      filtro as string,
+      busca as string,
+      categoria as string
+    );
+    res.json({ produtos });
+  } catch (erro) {
+    res.status(500).json({ error: 'Erro interno do servidor.' });
+  }
+}
 
 export async function apagarProduto(req: Request, res: Response) {
   const { id } = req.params;
 
   try {
-    const resultado = await pool.query(
-      'DELETE FROM produtos WHERE id = $1 RETURNING *',
-      [id]
-    );
-
-    if (resultado.rowCount === 0) {
-      res.status(404).json({ error: "Produto não encontrado." });
+    await apagarProdutoService('id');
+    res.json({ mensagem: 'Produto apagado com sucesso.' });
+  } catch (erro: any) {
+    if (erro.message === 'Produto não encontrado.') {
+      res.status(404).json({ error: erro.message });
       return;
     }
-
-    res.json({ mensagem: "Produto apagado com sucesso." });
-  } catch (erro) {
-    res.status(500).json({ error: "Erro interno do servidor." });
+    res.status(500).json({ error: 'Erro interno do servidor.' });
   }
 }
-
 
 export async function listarProdutoPorId(req: Request, res: Response) {
   const { id } = req.params;
 
   try {
-    const resultado = await pool.query(
-      'SELECT * FROM produtos WHERE id = $1',
-      [id]
-    );
-
-    if (resultado.rowCount === 0) {
-      res.status(404).json({ error: 'Produto não encontrado.' });
+    const produto = await listarProdutoPorIdService('id');
+    res.json({ produto });
+  } catch (erro: any) {
+    if (erro.message === 'Produto não encontrado.') {
+      res.status(404).json({ error: erro.message });
       return;
     }
-
-    res.json({ produto: resultado.rows[0] });
-  } catch (erro) {
     res.status(500).json({ error: 'Erro interno do servidor.' });
   }
 }

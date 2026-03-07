@@ -50,8 +50,8 @@ export default function ProdutoGrid({ produtosIniciais }: Props) {
                         onClick={() => handleFiltro(f)}
                         className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border cursor-pointer transition-colors
               ${filtro === f
-                                ? 'bg-purple-700 text-white border-purple-700'
-                                : 'bg-transparent text-purple-300 border-purple-700 hover:bg-purple-900'
+                                ? 'bg-indigo-500 text-white border-indigo-500'
+                                : 'bg-transparent text-indigo-300 border-indigo-500 hover:bg-indigo-600'
                             }`}
                     >
 
@@ -91,7 +91,7 @@ export default function ProdutoGrid({ produtosIniciais }: Props) {
                             </div>
                             <h3 className="text-lg font-bold">{produto.nome}</h3>
                             <p className="text-gray-400 text-sm flex-1"> {produto.descricao}</p>
-                            <p className="text-2xl font-black text-purple-400">
+                            <p className="text-2xl font-black text-indigo-300">
                                 R$ {Number(produto.preco).toFixed(2)}
                             </p>
                             <button
@@ -103,7 +103,7 @@ export default function ProdutoGrid({ produtosIniciais }: Props) {
                                 preco: Number(produto.preco) 
                             });
                             }}
-                            className="mt-auto bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
+                            className="mt-auto bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
                             >
                                 Adicionar ao Carrinho
                             </button>

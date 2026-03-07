@@ -1,4 +1,3 @@
-// src/app/cadastro/page.tsx
 import CadastroForm from '@/components/modules/auth/CadastroForm';
 
 export const metadata = {

@@ -24,9 +24,10 @@ interface Props {
   categoria: string;
   titulo: string;
   carousel?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
-export default function PaginaCategoria({ categoria, titulo, carousel }: Props) {
+export default function PaginaCategoria({ categoria, titulo, carousel, footer }: Props) {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [busca, setBusca] = useState('');
   const [filtro, setFiltro] = useState('');
@@ -61,8 +62,8 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
               onClick={() => setFiltro(f)}
               className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border cursor-pointer transition-colors
                 ${filtro === f
-                  ? 'bg-purple-700 text-white border-purple-700'
-                  : 'bg-transparent text-purple-300 border-purple-700 hover:bg-purple-900'
+                  ? 'bg-indigo-700 text-white border-indigo-700'
+                  : 'bg-transparent text-indigo-800 border-indigo-700 hover:bg-indigo-400'
                 }`}
             >
               {f === '' && 'Todos'}
@@ -78,7 +79,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
             <p className="text-gray-500 text-xl">Nenhum produto encontrado.</p>
             <button
               onClick={() => router.push('/')}
-              className="mt-4 bg-purple-700 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-colors cursor-pointer"
+              className="mt-4 bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 px-6 rounded-lg transition-colors cursor-pointer"
             >
               Voltar para a loja
             </button>
@@ -89,7 +90,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
               <div
                 key={produto.id}
                 onClick={() => router.push(`/produto/${produto.id}`)}
-                className="hover:-translate-y-4 bg-gray-900 border border-gray-800 hover:border-purple-600 rounded-2xl overflow-hidden flex flex-col text-white transition-all hover:shadow-2xl hover:shadow-purple-700 cursor-pointer"
+                className="hover:-translate-y-4 bg-gray-900 border border-gray-800 hover:border-indigo-600 rounded-2xl overflow-hidden flex flex-col text-white transition-all hover:shadow-2xl hover:shadow-indigo-700 cursor-pointer"
               >
                 {produto.imagem && (
                   <div className="relative w-full h-48">
@@ -111,7 +112,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
                   </div>
                   <h3 className="text-lg font-bold">{produto.nome}</h3>
                   <p className="text-gray-400 text-sm flex-1">{produto.descricao}</p>
-                  <p className="text-2xl font-black text-purple-400">
+                  <p className="text-2xl font-black text-indigo-400">
                     R$ {Number(produto.preco).toFixed(2)}
                   </p>
                   <button
@@ -123,7 +124,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
                         preco: Number(produto.preco)
                       });
                     }}
-                    className="mt-auto bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
+                    className="mt-auto bg-indigo-800 hover:bg-indigo-700 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
                   >
                     Adicionar ao Carrinho
                   </button>
@@ -134,6 +135,7 @@ export default function PaginaCategoria({ categoria, titulo, carousel }: Props) 
         )}
 
       </div>
+       {footer && footer}
     </main>
   );
 }

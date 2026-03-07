@@ -82,7 +82,7 @@ export default function Carousel() {
             key={i}
             onClick={() => setAtual(i)}
             className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-              i === atual ? 'bg-purple-400 w-4' : 'bg-white bg-opacity-50'
+              i === atual ? 'bg-indigo-500 w-4' : 'bg-white bg-opacity-50'
             }`}
           />
         ))}

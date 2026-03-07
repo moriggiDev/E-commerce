@@ -57,8 +57,8 @@ export default function Home() {
               onClick={() => setFiltro(f)}
               className={`px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap border cursor-pointer transition-colors
                 ${filtro === f
-                  ? 'bg-purple-700 text-white border-purple-700'
-                  : 'bg-transparent text-purple-300 border-purple-700 hover:bg-purple-900'
+                  ? 'bg-indigo-400 text-white border-indigo-400'
+                  : 'bg-transparent text-indigo-500 border-indigo-400 hover:bg-indigo-600'
                 }`}
             >
               {f === '' && 'Todos'}
@@ -74,7 +74,7 @@ export default function Home() {
             <div
               key={produto.id}
               onClick={() => router.push(`/produto/${produto.id}`)}
-              className="hover:-translate-y-6 bg-gray-900 border border-gray-800 hover:border-purple-500 rounded-2xl overflow-hidden flex flex-col text-white transition-all hover:shadow-2xl hover:shadow-purple-500 cursor-pointer"
+              className="hover:-translate-y-6 bg-gray-900 border border-gray-800 hover:border-indigo-500 rounded-2xl overflow-hidden flex flex-col text-white transition-all hover:shadow-2xl hover:shadow-indigo-500 cursor-pointer"
             >
               {produto.imagem && (
                 <div className="relative w-full h-48">
@@ -96,7 +96,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg font-bold">{produto.nome}</h3>
                 <p className="text-gray-400 text-sm flex-1">{produto.descricao}</p>
-                <p className="text-2xl font-black text-purple-400">
+                <p className="text-2xl font-black text-indigo-500">
                   R$ {Number(produto.preco).toFixed(2)}
                 </p>
                 <button
@@ -108,7 +108,7 @@ export default function Home() {
                       preco: Number(produto.preco)
                     });
                   }}
-                  className="mt-auto bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
+                  className="mt-auto bg-indigo-400 hover:bg-indigo-400 text-white py-2 rounded-lg transition-colors cursor-pointer font-semibold"
                 >
                   Adicionar ao Carrinho
                 </button>
