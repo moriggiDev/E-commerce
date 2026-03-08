@@ -38,10 +38,10 @@ export async function listarProdutos(req: Request, res: Response) {
 }
 
 export async function apagarProduto(req: Request, res: Response) {
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   try {
-    await apagarProdutoService('id');
+    await apagarProdutoService(id);
     res.json({ mensagem: 'Produto apagado com sucesso.' });
   } catch (erro: any) {
     if (erro.message === 'Produto não encontrado.') {
@@ -53,12 +53,13 @@ export async function apagarProduto(req: Request, res: Response) {
 }
 
 export async function listarProdutoPorId(req: Request, res: Response) {
-  const { id } = req.params;
+  const id = req.params.id as string;
 
   try {
-    const produto = await listarProdutoPorIdService('id');
+    const produto = await listarProdutoPorIdService(id);
     res.json({ produto });
   } catch (erro: any) {
+    console.log('Erro ao buscar produto:', erro.message); 
     if (erro.message === 'Produto não encontrado.') {
       res.status(404).json({ error: erro.message });
       return;

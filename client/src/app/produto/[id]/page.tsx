@@ -29,10 +29,13 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/produtos/${id}`)
-      .then(res => setProduto(res.data.produto))
-      .catch(() => router.push('/'));
-  }, [id]);
+  axios.get(`http://localhost:3001/produtos/${id}`)
+    .then(res => setProduto(res.data.produto))
+    .catch((err) => {
+      console.log('Erro completo:', err.response?.status, err.response?.data, err.message);
+      // router.push('/'); ← comenta isso temporariamente
+    });
+}, [id]);
 
   function handleAdicionar() {
     if (!produto) return;

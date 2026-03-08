@@ -6,9 +6,8 @@ import Header from '@/components/Header';
 import { useCart } from '@/context/CartContext';
 import Image from 'next/image';
 import Carousel from '@/components/Carousel';
-import ProdutoGrid from '@/components/ProdutoGrid';
 import Footer from '@/components/Footer';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Produto {
   id: number;
@@ -26,14 +25,21 @@ interface Produto {
 export default function Home() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [filtro, setFiltro] = useState('populares');
-  const [busca, setBusca] = useState('');
+  //const [busca, setBusca] = useState('');
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { adicionarProduto } = useCart();
 
+
+    
+
   useEffect(() => {
+
+    const busca = searchParams.get('busca') || '';
+
     const params = new URLSearchParams();
-    if (filtro) params.append('filtro', filtro);
+    if (filtro && !busca) params.append('filtro', filtro);
     if (busca) params.append('busca', busca);
 
 
@@ -42,7 +48,7 @@ export default function Home() {
     axios.get(url).then(res => setProdutos(res.data.produtos));
 
 
-  }, [filtro, busca]);
+  }, [filtro, searchParams]);
 
   return (
     <main className="min-h-screen bg-stone-800">
@@ -73,7 +79,9 @@ export default function Home() {
           {produtos.map(produto => (
             <div
               key={produto.id}
-              onClick={() => router.push(`/produto/${produto.id}`)}
+              onClick={() => {
+                console.log('clicando no produto:', produto.id)
+                router.push(`/produto/${produto.id}`)}}
               className="hover:-translate-y-6 bg-gray-900 border border-gray-800 hover:border-indigo-500 rounded-2xl overflow-hidden flex flex-col text-white transition-all hover:shadow-2xl hover:shadow-indigo-500 cursor-pointer"
             >
               {produto.imagem && (

@@ -37,16 +37,18 @@ export async function listarProdutosService(filtro?: string, busca?: string, cat
     query += ` AND nome ILIKE $${valores.length}`;
   }
 
-  if (filtro === 'mais-vendidos') {
-    query += ' ORDER BY vendas DESC';
-  } else if (filtro === 'populares') {
+  if (filtro === 'populares') {
     query += ' AND popular = true';
   } else if (filtro === 'promocao') {
     query += ' AND promocao = true';
+  }
+
+  
+  if (filtro === 'mais-vendidos') {
+    query += ' ORDER BY vendas DESC';
   } else {
     query += ' ORDER BY criado_em DESC';
   }
-
   const resultado = await pool.query(query, valores);
   return resultado.rows;
 }

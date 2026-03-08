@@ -18,9 +18,9 @@ export default function InfoCard({ icon, titulo, descricao, extra, link, linkLab
             <p className="text-gray-400 font-bold">{descricao}</p>
             {extra && <p className="text-gray-600 text-sm">{extra}</p>}
             {link && linkLabel && (
-                <link href={link} className="text-indigo-600 text-sm hover:text-indigo_500 transition-colors">
+                <Link href={link} className="text-indigo-600 text-sm hover:text-indigo-500 transition-colors">
                     {linkLabel}
-                </link>
+                </Link>
             )}
         </div>
     );
